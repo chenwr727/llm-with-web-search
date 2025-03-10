@@ -1,0 +1,12 @@
+fake_useragent==2.0.3
+langchain==0.3.19
+langchain_core==0.3.40
+langchain_deepseek==0.1.2
+langchain_openai==0.3.7
+loguru==0.7.3
+playwright==1.50.0
+pre_commit==4.1.0
+pydantic==2.10.6
+pydantic_settings==2.8.0
+Requests==2.32.3
+streamlit==1.42.2
