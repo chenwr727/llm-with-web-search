@@ -32,7 +32,7 @@ async def handle_query(question: str, needs_crawler: bool, needs_filter: bool):
     async with aiohttp.ClientSession() as client:
         async with client.post("http://localhost:8000/api/v1/chat", json=data, timeout=None) as response:
             async for line in response.content:
-                chunk = re.sub(r"\r\n?$", "", line.decode("utf-8"))
+                chunk = re.sub(r"\r\n$", "", line.decode("utf-8"))
                 if not chunk:
                     continue
 
@@ -56,7 +56,7 @@ async def handle_query(question: str, needs_crawler: bool, needs_filter: bool):
                     search_placeholder.markdown(search_content, unsafe_allow_html=True)
                 elif is_reasoning:
                     reasoning_content += chunk
-                    reasoning_placeholder.markdown(reasoning_content)
+                    reasoning_placeholder.markdown(reasoning_content, unsafe_allow_html=True)
                 else:
                     content += chunk
                     output_placeholder.markdown(content, unsafe_allow_html=True)
@@ -89,29 +89,13 @@ def display_chat_history():
             with st.expander("search", expanded=True):
                 st.markdown(message["search"], unsafe_allow_html=True)
             with st.expander("think", expanded=True):
-                st.markdown(message["reasoning"])
+                st.markdown(message["reasoning"], unsafe_allow_html=True)
             with st.chat_message(name="assistant", avatar="assistant"):
                 st.markdown(message["content"], unsafe_allow_html=True)
 
 
 st.set_page_config(page_title="Chat with LLM", layout="wide")
 st.title("Chat with LLM")
-
-css = """
-<style>
-    a[id^="footnote"] {
-        display: block;
-        position: relative;
-        visibility: visible;
-        height: 0;
-        top: -60px;
-    }
-    html {
-        scroll-behavior: smooth;
-    }
-</style>
-"""
-st.markdown(css, unsafe_allow_html=True)
 
 needs_crawler, needs_filter = config_search_tool()
 

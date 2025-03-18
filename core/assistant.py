@@ -225,7 +225,7 @@ class Assistant:
 
             search_results = await self._perform_search(search_decision["search_queries"])
             for i, result in enumerate(search_results, 1):
-                yield f'{i}. <a id="footnote{i}"></a> [{result.title}]({result.source})\n'
+                yield f"{i}. [{result.title}]({result.source})\n"
 
             yield "[/SEARCH]"
 
